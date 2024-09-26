@@ -1,0 +1,380 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FYP Management Dashboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f4f8;
+    color: #333;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: auto;
+}
+
+header {
+    text-align: center;
+    padding: 20px;
+    background-color: #007bff;
+    color: white;
+}
+
+nav {
+    margin: 20px 0;
+}
+
+nav ul {
+    list-style-type: none;
+}
+
+nav ul li {
+    display: inline;
+    margin: 0 15px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #007bff;
+}
+
+.dashboard-section {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.card {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.3s;
+    flex: 1;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+.card i {
+    font-size: 40px;
+    color: #007bff;
+    margin-bottom: 10px;
+}
+
+.card h3 {
+    margin-bottom: 10px;
+    font-size: 20px;
+}
+
+.card p {
+    color: #666;
+}
+
+.charts {
+    margin-top: 30px;
+}
+
+.meeting-section {
+    margin-top: 30px;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.meeting-section form {
+    display: flex;
+    flex-direction: column;
+}
+
+.meeting-section label {
+    margin-bottom: 5px;
+}
+
+.meeting-section input, .meeting-section select {
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.meeting-section button {
+    padding: 10px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.meeting-section button:hover {
+    background-color: #0056b3;
+}
+
+.grade-sheet, .supervisors, .groups {
+    margin-top: 30px;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.grade-sheet table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.grade-sheet th, .grade-sheet td {
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: left;
+}
+
+.grade-sheet th {
+    background-color: #f7f7f7;
+}
+
+.supervisors ul, .groups ul {
+    list-style-type: none;
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>FYP Management Dashboard</h1>
+        </header>
+        <nav>
+            <ul>
+                <li><a href="#">Dashboard</a></li>
+                <li><a href="#">Reports & Analytics</a></li>
+                <li><a href="#">View Progress</a></li>
+                <li><a href="#">Schedule Meeting</a></li>
+                <li><a href="#">Grade Sheet</a></li>
+                <li><a href="#">Supervisors</a></li>
+                <li><a href="#">Groups</a></li>
+                <li><a href="#">Logout</a></li>
+            </ul>
+        </nav>
+        <main>
+            <div class="dashboard-section">
+                <div class="card">
+                    <i class="fas fa-tasks"></i>
+                    <h3>Group in Progress</h3>
+                    <p>Currently 15 groups in progress.</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-user-tie"></i>
+                    <h3>Supervisors</h3>
+                    <p>8 supervisors available.</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-clipboard-list"></i>
+                    <h3>Pending Evaluation</h3>
+                    <p>5 evaluations pending.</p>
+                </div>
+            </div>
+            <div class="charts">
+                <h2>Reports & Analytics</h2>
+                <canvas id="reportChart"></canvas>
+                <canvas id="supervisorChart"></canvas>
+            </div>
+            <div class="meeting-section">
+                <h2>Schedule Meeting</h2>
+                <form>
+                    <label for="meetingTitle">Meeting Title:</label>
+                    <input type="text" id="meetingTitle" required>
+                    <label for="participants">Participants:</label>
+                    <select id="participants" multiple>
+                        <option value="supervisors">Supervisors</option>
+                        <option value="fypManagers">FYP Managers</option>
+                        <option value="panelMembers">Panel Members</option>
+                    </select>
+                    <button type="submit">Schedule Meeting</button>
+                </form>
+            </div>
+            <div class="grade-sheet">
+                <h2>Grade Sheet</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Group ID</th>
+                            <th>Supervisor</th>
+                            <th>Panel Members</th>
+                            <th>Score</th>
+                            <th>Comments</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>G1</td>
+                            <td>Dr. Smith</td>
+                            <td>Panel A</td>
+                            <td>85</td>
+                            <td>Excellent work.</td>
+                        </tr>
+                        <tr>
+                            <td>G2</td>
+                            <td>Dr. Johnson</td>
+                            <td>Panel B</td>
+                            <td>78</td>
+                            <td>Needs improvement.</td>
+                        </tr>
+                        <tr>
+                            <td>G3</td>
+                            <td>Dr. Lee</td>
+                            <td>Panel C</td>
+                            <td>90</td>
+                            <td>Outstanding presentation.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="supervisors">
+                <h2>Supervisors Overview</h2>
+                <ul>
+                    <li>Dr. Smith - 3 Groups</li>
+                    <li>Dr. Johnson - 2 Groups</li>
+                    <li>Dr. Lee - 3 Groups</li>
+                    <li>Dr. Green - 1 Group</li>
+                </ul>
+            </div>
+            <div class="groups">
+                <h2>Groups</h2>
+                <ul>
+                    <li>Group 1 - Project Title A</li>
+                    <li>Group 2 - Project Title B</li>
+                    <li>Group 3 - Project Title C</li>
+                    <li>Group 4 - Project Title D</li>
+                </ul>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Report Chart
+        const ctxReport = document.getElementById('reportChart').getContext('2d');
+        const reportChart = new Chart(ctxReport, {
+            type: 'bar',
+            data: {
+                labels: ['2018', '2019', '2020', '2021', '2022'],
+                datasets: [
+                    {
+                        label: 'BSCS',
+                        data: [80, 85, 75, 90, 88],
+                        backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                    },
+                    {
+                        label: 'BSSE',
+                        data: [78, 82, 80, 88, 86],
+                        backgroundColor: 'rgba(255, 99, 132, 0.6)',
+                    },
+                    {
+                        label: 'BS IT',
+                        data: [85, 90, 88, 92, 91],
+                        backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                    },
+                ],
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Score',
+                        },
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Year',
+                        },
+                    },
+                },
+            },
+        });
+
+        // Supervisor Chart
+        const ctxSupervisor = document.getElementById('supervisorChart').getContext('2d');
+        const supervisorChart = new Chart(ctxSupervisor, {
+            type: 'doughnut',
+            data: {
+                labels: ['Occupied Supervisors', 'Free Supervisors'],
+                datasets: [{
+                    data: [5, 3], // Example data
+                    backgroundColor: ['rgba(255, 99, 132, 0.6)', 'rgba(54, 162, 235, 0.6)'],
+                }],
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Supervisors Status',
+                    },
+                },
+            },
+        });
+    </script>
+<!-- Code injected by live-server -->
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
+</body>
+</html>

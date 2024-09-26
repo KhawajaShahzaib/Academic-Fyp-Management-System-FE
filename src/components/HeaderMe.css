@@ -1,0 +1,292 @@
+/* src/Header.css */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #f5f7fa;
+  padding: 10px 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar .logo {
+  display: flex;
+  align-items: center;
+}
+
+.navbar img {
+  height: 40px;
+}
+
+.navbar .menu {
+  display: flex;
+  align-items: center;
+  background-color: #e0e4e8;
+  padding: 10px 20px;
+  border-radius: 20px;
+}
+
+.navbar .menu a {
+  text-decoration: none;
+  color: #333;
+  padding: 10px 15px;
+  border-radius: 20px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.navbar .menu a:hover,
+.navbar .menu a.active {
+  background-color: #0073e6;
+  color: #fff;
+}
+
+.navbar .search {
+  display: flex;
+  align-items: center;
+}
+
+.navbar .search input {
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+}
+/* Switch  */
+.switch-dropdown {
+  position: relative;
+}
+
+.switch-select {
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  color: #333;
+  cursor: pointer;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  outline: none;
+}
+
+.switch-select:hover {
+  background-color: #f0f0f0;
+}
+
+.switch-select:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Custom dropdown arrow */
+.switch-select::after {
+  content: '\25BC';
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+/* Styling options */
+.switch-select option {
+  padding: 8px;
+  background-color: #fff;
+  color: #333;
+}
+.container {
+  display: flex;
+  height: calc(100vh - 60px);
+}
+
+.sidebar {
+margin-left: -190px;
+width: 200px;
+background-color: #f5f7fa;
+color: black;
+padding: 20px;
+box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar ul li {
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.sidebar ul li:hover {
+  text-decoration: underline;
+}
+
+
+.main-content {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.announcements,
+.pbl-section,
+.calendar {
+  background-color: white;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  
+}
+
+.announcement {
+  background-color: #f8d7da;
+  padding: 10px;
+  border: 1px solid #f5c2c7;
+  border-radius: 5px;
+}
+
+.announcement .buttons {
+  margin-top: 10px;
+}
+
+.announcement button {
+  margin-right: 10px;
+  background-color: #0073e6;
+  color: white;
+}
+.button-container {
+  text-align: right;
+  color: white;
+  
+}
+
+.button-container button {
+  margin-left: 10px; /* Adjust margin if needed */
+  padding: 8px;
+  font-size: 17px;
+  background-color: #0073e6;
+  color: white;
+
+}
+.pbl-section .batches button,
+.pbl-section .create-task button {
+  margin-bottom: 10px;
+  display: block;
+}
+
+.schedule details {
+  margin-bottom: 10px;
+}
+
+.calendar {
+  background-color: #f4f4f4;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+#calendar {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#calendar div {
+  width: 14.28%;
+  text-align: center;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.student-dashboard {
+  width: 1120px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+
+
+.project-section {
+  margin-top: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.project-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  background-color: #f5f5f5;
+  cursor: pointer;
+}
+
+
+.project-option {
+  padding: 20px;
+  border-top: 1px solid #ddd;
+  cursor: pointer;
+  display: flex;
+}
+
+.project-option:hover {
+  background-color: #f0f0f0;
+}
+
+.new-button {
+  display: block;
+ 
+  
+  padding: 16px;
+  background-color: #124c85;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+ margin-left: 1015px;
+  margin-top: -52px;
+}
+
+.new-button:hover {
+  background-color: #124c85;
+}
+
+.courses-section{
+  margin-top: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.courses-header{
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  background-color: #e3e3e3;
+  cursor: pointer;
+
+}
+.courses-options {
+  border-top: 1px solid #ddd;
+  /* display: flex; */
+  /* padding-left: 20px; */
+}
+
+.courses-option {
+  padding: 10px;
+  display: flex;
+  border-top: 1px solid #ddd;
+  cursor: pointer;
+}
+
+.courses-option:hover {
+  background-color: #f0f0f0;
+}
+.cc{
+  margin-left: 100px;
+  padding-left: 100px;
+}
