@@ -18,32 +18,42 @@ const DirectorDashboard = () => {
 
   const directorSections = [
     {
-      title: 'Project',
+      title: 'FYP Creation Management',
       options: [
-        { name: 'View All Projects', link: '/manage-specialization'},
-        { name: 'View all Current FYP Ongoing Tasks', link: '/supervision-requests' }
+        { name: 'Appoint FYP Manager', link: '/AssignFypManager'},
+        // { name: 'View all Current FYP Ongoing Tasks', link: '#' }
       ],
     },
     {
-      title: 'Manage Student Groups',
+      title: 'Ongoing FYP Courses',
       options: [
-        { name: 'View all Supervisors', link: '/schedule-meetings' },
-        { name: 'View Group Meetings', link: '/view-meetings' },
-        { name: 'View Assigned Groups', link: '/assigned-groups' }
+        { name: 'View Progress', link: '/view-progress' },
+        { name: 'View Assessments', link: '#' }
       ],
     },
+
     {
-      title: 'Project Ideas',
-      options: [{ name: 'Share Ideas', link: '/share-ideas' }],
-    },
+      title: "Results",
+      options: [
+        {name: "View Previous Result", link: '/view-result'}
+      ]
+    }
+  
   ];
   return (
     <>
          <Header>
-              <section style={styles.section}>
-                
-            </section>
-
+         <section style={styles.section}>
+        <h1>Director Dashboard</h1>
+        <div className="summary">
+          <div className="card">
+            <h2>Total Supervisors</h2>
+            <p>Available: <span>10</span></p>
+            <p>Occupied: <span>5</span></p>
+          </div>
+        </div>
+        </section>
+     
            
               {/* Other sections can be added here */}
               {/* <Dropdown1 /> */}

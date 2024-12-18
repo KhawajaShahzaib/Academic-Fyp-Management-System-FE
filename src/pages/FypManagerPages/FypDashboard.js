@@ -15,26 +15,31 @@ const DbFypInch = () => {
 
   const fypsection = [
     {
-      title: 'Batches',
+      title: 'Assessment Management',
       options: [
-        { name: 'Spring 2021', link: '#'},
-        { name: 'Spring 2021', link: '#' },
-        { name: 'Spring 2021', link: '#' }
+        { name: 'Manage External Assessment', link: '/external-assessmentpage' },
+        { name: 'Create Internal Assessment', link: '/create-assessmentpage'},
+
+        { name: 'Upload Timetable for suggestions..', link: '/TimetableUploadPage' }
       ],
     },
     {
       title: 'Schedule',
       options: [
-        { name: 'TimeTable', link: '#'},
-        { name: 'Panel', link: '#' }
+        { name: 'View Project List', link: '/batch-page'},
+        { name: 'Schedule Presentation', link: '/schedule-presentation'},
+        { name: 'Manage Presentation', link: '/manage-presentations'},
+        { name: 'Manage Assessments', link: '/manage-assessmentpage'},
+        { name: 'Panel', link: '/invite-panelmember' },
+        { name: 'Manage Panel', link: '/manage-panelmember' }
         
       ],
     },
     {
       title: 'Manage Task',
       options: [
-        { name: 'Create Submission', link: '#'},
-        { name: 'Manage Submission', link: '#' }
+        { name: 'Create Submission', link: '/create-submission'},
+        { name: 'Manage Submission', link: '/manage-submission' }
       ],
     },
   ];

@@ -1,8 +1,10 @@
 import './App.css';
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+import { useState } from 'react'; // Import useState here
+
 import RouteGuard from './utils/RouteGuard';
 import { AuthProvider } from './context/AuthContext';
-
+import RoleSelectionPage from './pages/roleSelection.js'
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import CoursePage from "./pages/CoursePage";
@@ -19,10 +21,64 @@ import SupervisionRequests from './pages/SupervisorPages/supervision-requests.js
 import ScheduleMeetings from './pages/SupervisorPages/schedule-meetings.js';
 import GroupMeetings from './pages/SupervisorPages/view-meetings.js';
 import ShareIdeas from './pages/SupervisorPages/share-ideas.js';
+//Director
+import AssignFypManager from './pages/DirectorPages/AssignFypManager.js';
+import ViewProgress from './pages/DirectorPages/ViewProgress.js'
+import ViewResult from './pages/DirectorPages/ViewResult.js';
 // Dont Bother Changing, Other NUBS
-
+//FYP Manager Data
+import CreateSubmission from './pages/FypManagerPages/create-submission.js'
+import ManageSubmissions from './pages/FypManagerPages/manage-submission.js';
+import SchedulePresentation from './pages/FypManagerPages/schedule-presentation.js';
+import ManagePresentations from './pages/FypManagerPages/manage-presentations.js';
+import InvitePanelMembers from './pages/FypManagerPages/invite-panelmember.js';
+import AcceptedInvitations from './pages/FypManagerPages/manage-panelmember.js';
+import BatchPage from './pages/FypManagerPages/batch-page.js';
+import ManageAssessmentPage from './pages/FypManagerPages/manage-assessmentpage.js';
+import CreateAssessmentPage from './pages/FypManagerPages/create-assessmentpage.js';
+import ExternalAssessment from './pages/FypManagerPages/external-assessmentpage.js';
+import TimetableUploadPage from './pages/FypManagerPages/TimetableUploadPage.js';
+//Student Data
+import ProjectSubmissions from './pages/StudentPages/ProjectSubmissions';
+import ProjectIdeas from './pages/StudentPages/ProjectIdeas';
+import CreateGroup from './pages/StudentPages/CreateGroup';
+import AddGroupMember from './pages/StudentPages/AddGroupMember.js';
+import ViewGroupInvitation from './pages/StudentPages/ViewGroupInvitation.js';
+import RequestSupervisor from './pages/StudentPages/RequestSupervisor.js';
+import ScheduleSupervisorMeeting from './pages/StudentPages/ScheduleSupervisorMeeting.js';
 
 function App() {
+    const [members, setMembers] = useState([]); // State for group members
+    const [groups, setGroups] = useState([]); // Ensure invitations are always initialized as an empty array if no invitations exist
+    
+  
+    // Function to add a new member
+    const handleCreateGroup = (newMember) => {
+      setMembers((prevMembers) => [...prevMembers, newMember]); // Add new member to the list
+    };
+  
+    // Function to remove a member
+    const handleRemoveMember = (groupIndex) => {
+      setMembers((prevMembers) => prevMembers.filter((member, index) => index !== groupIndex)); // Remove member from list
+    };
+  
+    // Function to create a group
+    const handleAddMember = (groupData) => {
+      setGroups((prevGroups) => [...prevGroups, groupData]); // Add a new group to the list
+    };
+  
+    // Function to accept a group invitation (add group to members)
+    const acceptGroupInvitation = (group) => {
+      setMembers((prevMembers) => [...prevMembers, group]); // Add the group to the members
+      // Optionally, you can also update the groups state to indicate the invitation is accepted
+      setGroups((prevGroups) => prevGroups.filter((g) => g !== group)); // Remove group from the invitations
+    };
+  
+    // Function to reject a group invitation (remove from groups)
+    const rejectGroupInvitation = (group) => {
+      setGroups((prevGroups) => prevGroups.filter((g) => g !== group)); // Remove group from invitations
+    };
+
     return (
         <div className="App">
             <Router>
@@ -31,6 +87,7 @@ function App() {
                         {/* Paths for login, dashboard */}
                         <Route path="/" element={<RouteGuard element={<HomePage />} />} exact />
                         <Route path="/login" element={<LoginPage />} />
+                        <Route path="/role-selection" element={<RoleSelectionPage />} />
                         <Route path="/course" element={<CoursePage />} />
                         <Route path="/admin-dashboard" element={<RouteGuard element={<AdminDashboard />} />} />
                         <Route path="/faculty-dashboard" element={<RouteGuard element={<FacultyDashboard />} />} />
@@ -46,6 +103,40 @@ function App() {
                         <Route path="/view-meetings" element={<RouteGuard element={<GroupMeetings/>} />} />
                         <Route path="/assigned-groups" element={<RouteGuard element={<AssignedGroups/>} />} />
                         <Route path="/share-ideas" element={<RouteGuard element={<ShareIdeas/>} />} />
+                    {/*directorPages*/}
+                        <Route path="/AssignFypManager" element={<RouteGuard element={<AssignFypManager/>} />} />
+                        <Route path="/view-progress" element={<RouteGuard element={<ViewProgress/>} />} />
+                        <Route path="/view-result" element={<RouteGuard element={<ViewResult/>} />} />
+                     {/*FYPMAnagerPages*/}
+                     <Route path="/create-submission" element={<RouteGuard element={<CreateSubmission/>} />} />
+                        <Route path="/manage-submission" element={<RouteGuard element={<ManageSubmissions/>} />} />
+                        <Route path="/schedule-presentation" element={<RouteGuard element={<SchedulePresentation/>} />} />
+                        <Route path="/manage-presentations" element={<RouteGuard element={<ManagePresentations/>} />} />
+                        <Route path="/invite-panelmember" element={<RouteGuard element={<InvitePanelMembers/>} />} />
+                        <Route path="/manage-panelmember" element={<RouteGuard element={<AcceptedInvitations/>} />} />
+                        <Route path="/batch-page" element={<RouteGuard element={<BatchPage/>} />} />
+                        <Route path="/manage-assessmentpage" element={<RouteGuard element={<ManageAssessmentPage/>} />} />
+                        <Route path="/create-assessmentpage" element={<RouteGuard element={<CreateAssessmentPage/>} />} />
+                        {/* <Route path="/create-assessment" element={<CreateAssessmentPage />} /> */}
+                        <Route path="/external-assessmentpage" element={<ExternalAssessment />} />
+                        <Route path="/schedule-presentation" element={<schedulePresentation />} />
+                        {}
+                        <Route path="/project-submissions" element={<RouteGuard element={<ProjectSubmissions />} />} />
+                        <Route path="/project-ideas" element={<RouteGuard element={<ProjectIdeas />} />} />
+                        <Route path="/create-group" element={<RouteGuard element={<CreateGroup />} />} />
+                        <Route path="/add-group-member" element={<RouteGuard element={<AddGroupMember onAddGroupMember={handleAddMember} />} />} />
+                        <Route path="/request-supervisor" element={<RouteGuard element={<RequestSupervisor />} />} />
+                        <Route path="/schedule-supervisor-meeting" element={<RouteGuard element={<ScheduleSupervisorMeeting />} />} />
+                     <Route
+                                  path="/view-group-invitation" element={<RouteGuard element={<ViewGroupInvitation groups={groups} setMembers={setMembers} 
+                                          acceptInvitation={acceptGroupInvitation}
+                                          rejectInvitation={rejectGroupInvitation}
+                                        />
+                                      }
+                                    />
+                                  }
+                                />
+                    
                     </Routes>
                 </AuthProvider>
             </Router>

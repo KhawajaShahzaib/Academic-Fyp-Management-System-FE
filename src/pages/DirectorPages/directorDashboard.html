@@ -86,7 +86,7 @@ nav ul li a {
 }
 
 .charts {
-    margin-top: 30px;
+    margin-top: 10px;
 }
 
 .meeting-section {
@@ -152,7 +152,13 @@ nav ul li a {
 .supervisors ul, .groups ul {
     list-style-type: none;
 }
-
+#supervisorChart {
+        width: 500px;
+        height: 500px;
+        max-width: 700px;
+        max-height: 700px;
+        margin: 0 auto;
+    }
     </style>
 </head>
 <body>
@@ -195,6 +201,13 @@ nav ul li a {
                 <canvas id="reportChart"></canvas>
                 <canvas id="supervisorChart"></canvas>
             </div>
+
+            <div class="charts">
+                <h2>FYP Progress Completion of each degree</h2>
+                <canvas id="reportChart2"></canvas>
+
+            </div>
+
             <div class="meeting-section">
                 <h2>Schedule Meeting</h2>
                 <form>
@@ -209,43 +222,7 @@ nav ul li a {
                     <button type="submit">Schedule Meeting</button>
                 </form>
             </div>
-            <div class="grade-sheet">
-                <h2>Grade Sheet</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Group ID</th>
-                            <th>Supervisor</th>
-                            <th>Panel Members</th>
-                            <th>Score</th>
-                            <th>Comments</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>G1</td>
-                            <td>Dr. Smith</td>
-                            <td>Panel A</td>
-                            <td>85</td>
-                            <td>Excellent work.</td>
-                        </tr>
-                        <tr>
-                            <td>G2</td>
-                            <td>Dr. Johnson</td>
-                            <td>Panel B</td>
-                            <td>78</td>
-                            <td>Needs improvement.</td>
-                        </tr>
-                        <tr>
-                            <td>G3</td>
-                            <td>Dr. Lee</td>
-                            <td>Panel C</td>
-                            <td>90</td>
-                            <td>Outstanding presentation.</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+           
             <div class="supervisors">
                 <h2>Supervisors Overview</h2>
                 <ul>
@@ -312,6 +289,50 @@ nav ul li a {
                 },
             },
         });
+
+        // FYP Progress Completion Chart
+const ctxReport2 = document.getElementById('reportChart2').getContext('2d');
+const reportChart2 = new Chart(ctxReport2, {
+    type: 'bar',
+    data: {
+        labels: ['2018', '2019', '2020', '2021', '2022'],
+        datasets: [
+            {
+                label: 'BSCS',
+                data: [85, 88, 80, 93, 91],
+                backgroundColor: 'rgba(54, 162, 235, 0.6)',
+            },
+            {
+                label: 'BSSE',
+                data: [82, 86, 84, 90, 89],
+                backgroundColor: 'rgba(255, 99, 132, 0.6)',
+            },
+            {
+                label: 'BS IT',
+                data: [88, 92, 90, 95, 94],
+                backgroundColor: 'rgba(75, 192, 192, 0.6)',
+            },
+        ],
+    },
+    options: {
+        responsive: true,
+        scales: {
+            y: {
+                beginAtZero: true,
+                title: {
+                    display: true,
+                    text: 'Progress (%)',
+                },
+            },
+            x: {
+                title: {
+                    display: true,
+                    text: 'Year',
+                },
+            },
+        },
+    },
+});
 
         // Supervisor Chart
         const ctxSupervisor = document.getElementById('supervisorChart').getContext('2d');

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Director Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Add Chart.js library for bar chart -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <h1>Director Dashboard</h1>
+        <div class="summary">
+            <div class="card">
+                <h2>Total Supervisors</h2>
+                <p>Available: <span id="available-supervisors">10</span></p>
+                <p>Occupied: <span id="occupied-supervisors">5</span></p>
+            </div>
+        </div>
+
+        <div class="dropdown-section">
+            <label for="courses">Courses:</label>
+            <select id="courses" onchange="updateChart()">
+                <option value="fyp1">FYP-1 BSCS FALL 2023</option>
+                <option value="fyp2">FYP-2 FALL 2024</option>
+                <option value="bsse">BSSE</option>
+                <option value="bsit">BSIT</option>
+            </select>
+        </div>
+
+        <div class="chart-section">
+            <h2>Course Progress</h2>
+            <canvas id="progressChart" width="400" height="200"></canvas>
+        </div>
+
+     
+    
+    </div>
+
+    <script>
+        // Sample data for each course
+        const courseData = {
+            'fyp1': { completed: 3, total: 5 },
+            'fyp2': { completed: 2, total: 4 },
+            'bsse': { completed: 4, total: 6 },
+            'bsit': { completed: 5, total: 7 },
+        };
+
+        const ctx = document.getElementById('progressChart').getContext('2d');
+        let progressChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Completed Assessments', 'Total Assessments'],
+                datasets: [{
+                    label: 'Assessments',
+                    data: [0, 1], // Placeholder data
+                    backgroundColor: [
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 99, 132, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 99, 132, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Number of Assessments'
+                        }
+                    }
+                }
+            }
+        });
+
+        function updateChart() {
+            const selectedCourse = document.getElementById('courses').value;
+            const { completed, total } = courseData[selectedCourse];
+            progressChart.data.datasets[0].data = [completed, total];
+            progressChart.update();
+        }
+
+        
+    </script>
+</body>
+</html>
+<style>
+    body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+.dashboard-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+.summary {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.card {
+    background: #e3f2fd;
+    padding: 20px;
+    border-radius: 8px;
+    flex: 1;
+    margin: 0 10px;
+    text-align: center;
+}
+
+.dropdown-section {
+    margin: 20px 0;
+}
+
+label {
+    font-weight: bold;
+}
+
+select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    max-width: 300px;
+}
+
+.chart-section {
+    margin-top: 20px;
+}
+
+.assign-section {
+    margin: 20px 0;
+}
+
+</style>
