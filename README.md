@@ -100,9 +100,22 @@ The FYP Management System is a web-based platform designed to streamline and sim
 - `POST /api/auth/register/`: User registration.
 
 ## Screenshots
+### Role based Notifications
+![DirectorDashboard](screenshots/Role-based-Notifications.png)
+
+
+### Director Dashboard
 ![DirectorDashboard](screenshots/DirectorDashboard.png)
+
+
+### FYP Incharge Dashboard
 ![InchargeDashboard](screenshots/fypInchargeDashboard.png)
+
+
+### Supervisor Dashboard
 ![SupervisorDashboard](screenshots/SupervisorDashboard.png)
+
+
 ## Contributing
 Contributions are welcome! Please follow these steps:
 1. Fork the repository.
