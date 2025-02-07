@@ -43,7 +43,7 @@ The FYP Management System is a web-based platform designed to streamline and sim
 ### Backend Setup
 1. Clone the backend repository:
    ```bash
-   git clone
+   git clone https://github.com/KhawajaShahzaib/Academic-Fyp-Management-System-FE.git
    ```
 2. Create a virtual environment:
    ```bash
@@ -81,8 +81,8 @@ The FYP Management System is a web-based platform designed to streamline and sim
 
 ### Frontend:
 - `src/components`: Reusable React components.
-- `src/pages`: Page-specific components.
-- `src/services`: API service integrations.
+- `src/pages`: Page-specific components seprated by roles.
+
 - `src/styles`: CSS and styling files.
 
 ### Backend:
@@ -99,7 +99,10 @@ The FYP Management System is a web-based platform designed to streamline and sim
 - `POST /api/auth/login/`: User login.
 - `POST /api/auth/register/`: User registration.
 
-
+## Screenshots
+![DirectorDashboard](screenshots/DirectorDashboard.png)
+![InchargeDashboard](screenshots/fypInchargeDashboard.png)
+![SupervisorDashboard](screenshots/SupervisorDashboard.png)
 ## Contributing
 Contributions are welcome! Please follow these steps:
 1. Fork the repository.
