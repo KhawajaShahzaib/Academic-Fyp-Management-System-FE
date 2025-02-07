@@ -43,6 +43,7 @@ import { useNavigate } from 'react-router-dom'; // Import useNavigate
 const Sidebar = () => {
   const { currentRole } = useContext(AuthContext); // Get the current role from context
   const navigate = useNavigate(); // Initialize the navigate function
+  const { user, logoutUser } = useContext(AuthContext);
 
   const handleDashboardClick = () => {
     // Navigate to the appropriate dashboard based on the current role
@@ -53,7 +54,7 @@ const Sidebar = () => {
       case 'FypManager':
         navigate('/fyp-dashboard');
         break;
-      case 'PanelMember':
+      case 'Panel':
         navigate('/panel-member-dashboard');
         break;
       case 'Director':
@@ -63,7 +64,13 @@ const Sidebar = () => {
         navigate('/student-dashboard'); // Default route for students or any other role
     }
   };
-
+  const handleLogoutClick = () => {
+    logoutUser(); // Call the logout function
+    navigate('/login'); // Redirect to the login screen
+  };
+  const handleProfile = () => {
+    navigate('/Profile'); // Redirect to the login screen
+  };
   return (
     <aside className="sidebar">
       <ul>
@@ -73,13 +80,13 @@ const Sidebar = () => {
             Dashboard
           </div>
         </li>
-        <li className="sidebar-item">
+        <li className="sidebar-item" onClick={handleProfile}>
           <div className="sidebar-item-container">
             <FaCog className="sidebar-icon" />
             Settings
           </div>
         </li>
-        <li className="sidebar-item">
+        <li className="sidebar-item" onClick={handleLogoutClick}>
           <div className="sidebar-item-container">
             <FaSignOutAlt className="sidebar-icon" />
             Log out

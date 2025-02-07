@@ -1,9 +1,10 @@
 
 // import './supervisor.css';
+// import styles from '../commonCSS/supervisorStyles.js'
 import styles from '../commonCSS/supervisorStyles.js'
 import React, { useState, useContext } from 'react';
 import Header from "../../components/Header";
-import '../../components/HeaderMe.css'
+// import '../../components/HeaderMe.css'
 import AuthContext from '../../context/AuthContext';
 
 
@@ -65,42 +66,51 @@ const ManageSpecialization = () => {
   };
 
   return (
-      <Header>
-          <section style={styles.section}>
-              <h2 style={styles.sectionHeader}>Manage Supervisor Specialties</h2>
-              <h3>Specialty Areas</h3>
-              <div>
-                  {specialtyOptions.map(option => (
-                      <div key={option}>
-                          <input
-                              type="checkbox"
-                              id={option}
-                              value={option}
-                              checked={specialties.includes(option)}
-                              onChange={handleSpecialtyChange}
-                          />
-                          <label htmlFor={option}>{option}</label>
-                      </div>
-                  ))}
-                  <input
-                      type="text"
-                      style={styles.input}
-                      value={customSpecialty}
-                      onChange={(e) => setCustomSpecialty(e.target.value)}
-                      placeholder="Add custom specialty"
-                  />
-                  <button style={styles.button} onClick={handleAddCustomSpecialty}>Add Specialty</button>
-              </div>
-              <h4>Selected Specialties</h4>
-              <ul style={styles.list}>
-                  {specialties.map(specialty => (
-                      <li key={specialty} style={styles.listItem}>{specialty}</li>
-                  ))}
-              </ul>
-              <button style={styles.button} onClick={handleSubmit}>Save Specialties</button>
-          </section>
-      </Header>
-  );
+    <Header>
+        <section style={styles.section}>
+            <h2 style={styles.sectionHeader}>Manage Supervisor Specialties</h2>
+            <h3 style={styles.subHeader}>Specialty Areas</h3>
+            <div style={styles.specialtyContainer}>
+                {specialtyOptions.map(option => (
+                    <div key={option} style={styles.checkboxContainer}>
+                                                <label htmlFor={option} style={styles.checkboxlabel}>{option}</label>
+
+                        <input
+                            type="checkbox"
+                            id={option}
+                            value={option}
+                            checked={specialties.includes(option)}
+                            onChange={handleSpecialtyChange}
+                            style={styles.checkbox}
+                        />
+                    </div>
+                ))}
+                <div style={styles.customSpecialtyContainer}>
+                    <input
+                        type="text"
+                        style={styles.input}
+                        value={customSpecialty}
+                        onChange={(e) => setCustomSpecialty(e.target.value)}
+                        placeholder="Add custom specialty"
+                    />
+                    <button style={styles.actionButton} onClick={handleAddCustomSpecialty}>
+                        Add Specialty
+                    </button>
+                </div>
+            </div>
+            <h4 style={styles.subHeader}>Selected Specialties</h4>
+            <ul style={styles.list}>
+                {specialties.map(specialty => (
+                    <li key={specialty} style={styles.listItem}>{specialty}</li>
+                ))}
+            </ul>
+            <button style={styles.actionButton} onClick={handleSubmit}>
+                Save Specialties
+            </button>
+        </section>
+    </Header>
+);
+
 };
 
 export default ManageSpecialization;

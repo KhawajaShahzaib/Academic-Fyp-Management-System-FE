@@ -1,12 +1,13 @@
 .navbar {
-    margin-left: -179px;
-    margin-right: -183px;
+    /* margin-left: -179px; */
+    /* margin-right: -183px; */
     display: flex;
     align-items: center;
     justify-content: space-between;
     background-color: #f5f7fa;
-    padding: 10px 20px;
+    /* padding: 10px 20px; */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
   }
   
   .navbar .logo {

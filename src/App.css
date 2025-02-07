@@ -40,7 +40,7 @@
 }
 
 /* General Styles */
-body {
+/* body {
     margin: 0;
     font-family: 'Roboto', sans-serif;
     background-color: #FFFFFF;
@@ -48,13 +48,13 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-}
+} */
 
 /* Container */
 .container {
-    position: relative;
-    width: 1440px;
-    height: 1024px;
+    /* position: relative; */
+    /* width: 1440px; */
+    /* height: 1024px; */
 }
 
 /* Login Box */

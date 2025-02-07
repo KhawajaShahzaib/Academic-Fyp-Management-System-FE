@@ -1,4 +1,9 @@
 const styles = {
+    count: {
+        fontSize: '34px',
+        color: '#0073e6',
+        fontWeight: 'bold',
+      },
     container: {
         padding: '20px',
         backgroundColor: '#f5f5f5',
@@ -18,7 +23,7 @@ const styles = {
     tableHeader: {
         padding: '10px',
         textAlign: 'left',
-        borderBottom: '1px solid #ddd',
+        border: '1px solid #ddd',
         width: '25%',
         fontWeight: 'bold',
     },
@@ -27,7 +32,7 @@ const styles = {
     },
     tableCell: {
         padding: '10px',
-        borderBottom: '1px solid #ddd',
+        border: '1px solid #ddd',
         textAlign: 'left',
         width: '25%',
     },
@@ -53,11 +58,15 @@ const styles = {
     },
     inputField: {
         width: '100%',
-        padding: '8px',
-        margin: '10px 0',
-        border: '1px solid #ddd',
+        padding: '10px',
+        margin: '10px , 0',
+        border: '1px solid #ccc',
         borderRadius: '4px',
-        boxSizing: 'border-box',
+        fontSize: '16px',
+        marginBottom: '20px',
+    },
+    courseSelect: {
+    fontWeight: 'bold', marginBottom: '10px', display: 'block'
     },
     questionContainer: {
         display: 'flex',
@@ -119,25 +128,25 @@ const styles = {
         borderRadius: '5px'
 },
 
-modal: {
-    position: 'fixed',
-    top: 0,
-    left: 0,
-    width: '100%',
-    height: '100%',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent background overlay
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    zIndex: 1000, // Ensure it's on top
-},
-modalContent: {
-    backgroundColor: '#fff',
-    padding: '20px',
-    borderRadius: '8px',
-    width: '400px', // Centered form width
-    boxShadow: '0 5px 15px rgba(0, 0, 0, 0.3)', // Light shadow for emphasis
-},
+// modal: {
+//     position: 'fixed',
+//     top: 0,
+//     left: 0,
+//     width: '100%',
+//     height: '100%',
+//     backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent background overlay
+//     display: 'flex',
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//     zIndex: 1000, // Ensure it's on top
+// },
+// modalContent: {
+//     backgroundColor: '#fff',
+//     padding: '20px',
+//     borderRadius: '8px',
+//     width: '400px', // Centered form width
+//     boxShadow: '0 5px 15px rgba(0, 0, 0, 0.3)', // Light shadow for emphasis
+// },
 closeButton: {
     cursor: 'pointer',
     fontSize: '1.5em',
@@ -147,7 +156,7 @@ closeButton: {
     color: '#aaa',
 },
 container: {
-    padding: '20px',
+    // padding: '20px',
     maxWidth: '1200px',
     margin: '0 auto',
     fontFamily: 'Arial, sans-serif',
@@ -178,11 +187,11 @@ table: {
     marginTop: '20px',
 },
 tableHeaderRow: {
-    backgroundColor: '#f8f8f8',
+    backgroundColor: '#f2f2f2',
 },
 tableHeader: {
     padding: '10px',
-    borderBottom: '2px solid #ddd',
+    border: '2px solid #ddd',
     textAlign: 'left',
 },
 tableRow: {
@@ -191,8 +200,10 @@ tableRow: {
     },
 },
 tableCell: {
+    textAlign: 'left',
+
     padding: '10px',
-    borderBottom: '1px solid #ddd',
+    border: '1px solid #ddd',
 },
 actionButton: {
     padding: '8px 12px',
@@ -207,38 +218,48 @@ actionButton: {
 },
 modal: {
     position: 'fixed',
-    top: '0',
-    left: '0',
+    top: 0,
+    left: 0,
     width: '100%',
     height: '100%',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    zIndex: '1000',
+    zIndex: 1000,
 },
 modalContent: {
-    backgroundColor: '#fff',
-    padding: '20px',
-    borderRadius: '8px',
-    width: '500px',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+    backgroundColor: '#f9f9f9',
+    padding: '40px',
+    borderRadius: '12px',
+    width: '50%',
+    boxShadow: '0 12px 24px rgba(0, 0, 0, 0.3)',
     position: 'relative',
+    fontFamily: 'Roboto, Arial, sans-serif',
+    color: '#333',
+    lineHeight: 1.6,
 },
 close: {
     position: 'absolute',
-    top: '10px',
-    right: '15px',
-    fontSize: '18px',
+    top: '15px',
+    right: '20px',
+    fontSize: '24px',
+    fontWeight: 'bold',
+    color: '#888',
     cursor: 'pointer',
+    transition: 'color 0.3s ease',
+},
+closeHover: {
+    color: '#444',
 },
 input: {
     width: '100%',
-    padding: '10px',
-    margin: '10px 0',
-    borderRadius: '4px',
-    border: '1px solid #ccc',
-    fontSize: '16px',
+        padding: '10px',
+        margin: '10px , 0',
+        border: '1px solid #ccc',
+        borderRadius: '4px',
+        fontSize: '16px',
+        marginBottom: '20px'
 },
 submitButton: {
     padding: '12px 20px',
@@ -257,9 +278,72 @@ submitButtonHover: {
     '&:hover': {
         backgroundColor: '#218838',
     },
-}
+},
+card: {
+    backgroundColor: '#ffffff',
+    padding: '20px',
+    borderRadius: '10px',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    textAlign: 'center',
+    transition: 'transform 0.3s',
+    flex: 1,
 
-    
+  },
+  cardHover: {
+    transform: 'scale(1.05)',
+  },
+  cardIcon: {
+    fontSize: '40px',
+    color: '#007bff',
+    marginBottom: '10px',
+  },
+  moveButton: {
+    padding: '5px 10px',
+    margin: '2px',
+    cursor: 'pointer',
+    backgroundColor: '#007bff',
+    color: '#fff',
+    border: 'none',
+    borderRadius: '4px',
+},
+
+
+//Room stuff
+
+actionButtons: {
+    display: 'flex',
+    gap: '0.5rem',
+},
+editButton: {
+    backgroundColor: '#007bff',
+    color: 'white',
+    padding: '0.5rem',
+    border: 'none',
+    borderRadius: '4px',
+    cursor: 'pointer',
+},
+deleteButton: {
+    backgroundColor: '#dc3545',
+    color: 'white',
+    padding: '0.5rem',
+    border: 'none',
+    borderRadius: '4px',
+    cursor: 'pointer',
+},
+
+roleButton: {
+    padding: '20px', // Larger padding for bigger buttons
+    backgroundColor: '#007bff', // Bootstrap primary color
+    color: '#fff',
+    width: '1120px',
+    border: 'none',
+    borderRadius: '12px', // More rounded corners
+    fontSize: '24px', // Increased font size for button text
+    fontWeight: '600', // Bolder button text
+    cursor: 'pointer',
+    transition: 'background-color 0.3s ease, transform 0.2s ease',
+    boxShadow: '0 8px 12px rgba(0, 0, 0, 0.2)', // More pronounced shadow
+},
 };
 
 export default styles;

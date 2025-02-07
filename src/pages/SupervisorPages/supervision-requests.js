@@ -63,7 +63,7 @@ const SupervisionRequests = () => {
                 <p style={{ fontSize: '1.2rem'}}><strong>Description:</strong> {request.description}</p>
                 <h5 style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>Group Members:</h5>
                 <ul style={styles.list}>
-                  {request.group_members.map(member => (
+                  {request.group.members.map(member => (
                     <li key={member.student.group} style={styles.listItem}>
                       <span style={{ fontSize: '1.2rem' }}>Member Name: {member.student.username}</span>
                     </li>

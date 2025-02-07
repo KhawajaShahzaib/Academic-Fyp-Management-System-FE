@@ -90,16 +90,18 @@ const Header = ({ children }) => {
       <div className="container">
         <Sidebar />
         <main className="main-content">
-          <Announcements />
+          {/* <Announcements /> */}
          
           {children} {/* Render any additional content passed to this header */}
         </main>
         <div>
-    <SwitchRole currentUserRole={currentUserRole}/>
-    <Calendar />
+   
    
     </div>
+    <SwitchRole currentUserRole={currentUserRole}/>
+      <Calendar />
       </div>
+     
     </div>
   );
 };

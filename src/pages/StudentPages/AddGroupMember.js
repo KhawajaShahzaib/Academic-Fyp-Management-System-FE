@@ -1,26 +1,46 @@
-import React, { useState } from 'react';
-import Header from '../../components/Header'; // Assuming you're using a Header component
+import React, { useState, useContext } from 'react';
+import Header from '../../components/Header'; 
 import '../../components/Headerstudent.css';
+import axios from 'axios';
+import AuthContext from '../../context/AuthContext';
 
 const AddGroupMember = ({ onAddGroupMember }) => {
   const [projectTitle, setProjectTitle] = useState('');
- 
-  const [sapId, setSapId] = useState(''); // New state for SAP ID
+  const [sapId, setSapId] = useState(''); // SAP ID state
+  const { authTokens } = useContext(AuthContext); // Get authTokens from context
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (projectTitle === '' ||  sapId === '') {
-      alert('Please enter a project title, select a course, and enter a SAP ID');
+    if (projectTitle === '' || sapId === '') {
+      alert('Please enter a project title and SAP ID');
       return;
     }
 
-    // Send the new group details to the parent component
-    onAddGroupMember({ projectTitle, sapId });
+    try {
+      const response = await axios.post(
+        'http://127.0.0.1:8000/api/fyp/add-group-member/',
+        { projectTitle, sapId },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${authTokens.access}`, // Add token here
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        alert(response.data.message); // Show success message
+        onAddGroupMember({ projectTitle, sapId }); // Update parent component if needed
+      } else {
+        alert(response.data.error || 'Something went wrong');
+      }
+    } catch (error) {
+      alert('Error: ' + error.message);
+    }
 
     // Reset the form after submission
     setProjectTitle('');
-    
     setSapId('');
   };
 
@@ -29,8 +49,6 @@ const AddGroupMember = ({ onAddGroupMember }) => {
       <div className="add-group-member">
         <h2>Add Group Member</h2>
         <form onSubmit={handleSubmit}>
-         
-
           {/* SAP ID Input */}
           <div>
             <label htmlFor="sapId">SAP ID:</label>

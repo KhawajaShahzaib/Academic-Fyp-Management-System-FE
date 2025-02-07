@@ -1,0 +1,68 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    /* padding: 20px; */
+    background-color: #f4f4f4;
+}
+h1 {
+    text-align: center;
+}
+.container {
+    /* max-width: 800px; */
+    /* margin: auto; */
+    background: white;
+    /* padding: 20px; */
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+select, input[type="text"], input[type="number"], input[type="date"] {
+    width: 157%;
+    /* padding: 10px; */
+    /* margin: 10px 0; */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: '#fff';
+    border: none;
+    border-radius: '4px';
+    cursor: pointer;
+    margin-right: 10px;
+    color: white;
+  }
+button:hover {
+    background-color: #218838;
+}
+.project-list, .evaluate-phase {
+    margin-top: 20px;
+    border-top: 1px solid #ccc;
+    padding-top: 10px;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0;
+}
+th, td {
+    padding: 8px;
+    border: 1px solid #ccc;
+    text-align: left;
+}
+.edit-btn, .add-btn {
+    background-color: #007bff;
+    margin: 5px;
+}
+.edit-btn:hover, .add-btn:hover {
+    background-color: #0056b3;
+}
+.hidden {
+    display: none;
+}
+.save-btn {
+    background-color: #ffc107;
+}
+.save-btn:hover {
+    background-color: #e0a800;
+}

@@ -52,7 +52,7 @@ const SwitchRole = () => {
         navigate('/faculty-dashboard');
     } else if (role === 'FypManager') {
         navigate('/fyp-dashboard');
-    } else if (role === 'PanelMember') {
+    } else if (role === 'Panel') {
         navigate('/panel-member-dashboard');
     } else if (role === 'Director') {
         navigate('/director-dashboard');

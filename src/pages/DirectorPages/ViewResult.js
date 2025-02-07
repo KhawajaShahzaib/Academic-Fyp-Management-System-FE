@@ -105,7 +105,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { Chart } from 'chart.js';
-import styles from '../commonCSS/supervisorStyles.js'; // Import your common CSS
+import styles from '../commonCSS/fypmanagerstyles.js'; // Import your common CSS
 import Header from "../../components/Header";
 
 const ViewResult = () => {
@@ -189,7 +189,7 @@ const ViewResult = () => {
             <section style={styles.section}>  
                     <div className={styles.charts}>
                         <h2>FYP Progress Completion of Each Degree</h2>
-                        <select onChange={(e) => setSelectedSemester(e.target.value)} value={selectedSemester}>
+                        <select style={styles.inputField} onChange={(e) => setSelectedSemester(e.target.value)} value={selectedSemester}>
                             {fypData.semesters.map((semester, index) => (
                                 <option key={index} value={semester}>
                                     {semester}

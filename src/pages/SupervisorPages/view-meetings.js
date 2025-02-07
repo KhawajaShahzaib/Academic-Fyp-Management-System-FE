@@ -1,5 +1,88 @@
+// import styles from '../commonCSS/supervisorStyles.js'
+// import React, { useState, useContext,  useEffect} from 'react';
+// import '../../components/HeaderMe.css'
+// import Header from "../../components/Header";
+// import AuthContext from '../../context/AuthContext';
+
+// import axios from 'axios';
+
+// const GroupMeetings = () => {
+//   const [scheduledMeetings, setScheduledMeetings] = useState([]);
+//   const { authTokens } = useContext(AuthContext);  // Ensure you are getting auth tokens
+
+//   useEffect(() => {
+//     const fetchMeetings = async () => {
+//       try {
+//         const response = await axios.get('http://127.0.0.1:8000/api/fyp/schedule-meetings/', {
+//           headers: {
+//             'Content-Type': 'application/json',
+//             'Authorization': `Bearer ${authTokens.access}`,
+//           },
+//         });
+        
+//         // Log response data to verify the structure
+//         console.log("Fetched Meetings:", response.data);
+  
+//         // Set the fetched meetings data
+//         setScheduledMeetings(response.data);
+//       } catch (error) {
+//         console.error("Error fetching meetings:", error);
+//       }
+//     };
+//     fetchMeetings();
+//   }, [authTokens]);
+
+//   // Split meetings into past and upcoming
+//   const pastMeetings = scheduledMeetings.filter(meeting => new Date(meeting.date) < new Date());
+//   const upcomingMeetings = scheduledMeetings.filter(meeting => new Date(meeting.date) >= new Date());
+
+//   return (
+//     <Header>
+//       <section style={styles.section}>
+//         <h2 style={styles.sectionHeader}>Upcoming Meetings</h2>
+//         <div style={styles.cardContainer}>
+//           {upcomingMeetings.map(meeting => (
+//             <div key={meeting.id} style={styles.card}>
+//               <p><strong>{meeting.group.project_title}</strong></p> {/* Adjust according to your serializer */}
+//               <p>Date: {meeting.date}</p>
+//               <p>Time: {meeting.time}</p>
+//               <p>Status: {meeting.status}</p> {/* Include status if available */}
+//             </div>
+//           ))}
+//         </div>
+//       </section>
+
+//       <section style={styles.section}>
+//         <h2 style={styles.sectionHeader}>Past Meetings</h2>
+//         <div style={styles.cardContainer}>
+//           {pastMeetings.map(meeting => (
+//             <div key={meeting.id} style={styles.card}>
+//               <p><strong>{meeting.group.project_title}</strong></p> {/* Adjust according to your serializer */}
+//               <p>Date: {meeting.date}</p>
+//               <p>Time: {meeting.time}</p>
+//               <p>Status: {meeting.status}</p> {/* Include status if available */}
+//             </div>
+//           ))}
+//         </div>
+//       </section>
+//     </Header>
+//   );
+// };
+
+// export default GroupMeetings;
+
+
+  
+
+
+
+
+
+
+//NEW
+
 import styles from '../commonCSS/supervisorStyles.js'
-import React, { useState, useContext,  useEffect} from 'react';
+import React, { useState, useContext, useEffect} from 'react';
 import '../../components/HeaderMe.css'
 import Header from "../../components/Header";
 import AuthContext from '../../context/AuthContext';
@@ -8,6 +91,7 @@ import axios from 'axios';
 
 const GroupMeetings = () => {
   const [scheduledMeetings, setScheduledMeetings] = useState([]);
+  const [attendanceRecords, setAttendanceRecords] = useState([]);
   const { authTokens } = useContext(AuthContext);  // Ensure you are getting auth tokens
 
   useEffect(() => {
@@ -29,12 +113,52 @@ const GroupMeetings = () => {
         console.error("Error fetching meetings:", error);
       }
     };
+
+    const fetchAttendance = async () => {
+      try {
+        const response = await axios.get('http://127.0.0.1:8000/api/fyp/attendance/', {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${authTokens.access}`,
+          },
+        });
+
+        setAttendanceRecords(response.data);
+        console.log("fetched attendances: ", response.data)
+      } catch (error) {
+        console.error("Error fetching attendance:", error);
+      }
+    };
+
     fetchMeetings();
+    fetchAttendance();
   }, [authTokens]);
 
   // Split meetings into past and upcoming
   const pastMeetings = scheduledMeetings.filter(meeting => new Date(meeting.date) < new Date());
   const upcomingMeetings = scheduledMeetings.filter(meeting => new Date(meeting.date) >= new Date());
+
+  const handleAttendanceChange = async (attendanceId, isPresent) => {
+    console.log("id and is present: ", attendanceId, isPresent)
+    try {
+      await axios.post(`http://127.0.0.1:8000/api/fyp/attendance-mark/${attendanceId}/`, {
+        is_present: isPresent,
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authTokens.access}`,
+        },
+      });
+      setAttendanceRecords(prevState =>
+        prevState.map(attendance =>
+          attendance.id === attendanceId ? { ...attendance, is_present: isPresent } : attendance
+        )
+      );
+      alert("Marked Successfully")
+    } catch (error) {
+      console.error("Error marking attendance:", error);
+    }
+  };
 
   return (
     <Header>
@@ -43,10 +167,9 @@ const GroupMeetings = () => {
         <div style={styles.cardContainer}>
           {upcomingMeetings.map(meeting => (
             <div key={meeting.id} style={styles.card}>
-              <p><strong>{meeting.group.project_title}</strong></p> {/* Adjust according to your serializer */}
+              <p><strong>{meeting.group.project_title}</strong></p>
               <p>Date: {meeting.date}</p>
               <p>Time: {meeting.time}</p>
-              <p>Status: {meeting.status}</p> {/* Include status if available */}
             </div>
           ))}
         </div>
@@ -55,14 +178,18 @@ const GroupMeetings = () => {
       <section style={styles.section}>
         <h2 style={styles.sectionHeader}>Past Meetings</h2>
         <div style={styles.cardContainer}>
-          {pastMeetings.map(meeting => (
-            <div key={meeting.id} style={styles.card}>
-              <p><strong>{meeting.group.project_title}</strong></p> {/* Adjust according to your serializer */}
-              <p>Date: {meeting.date}</p>
-              <p>Time: {meeting.time}</p>
-              <p>Status: {meeting.status}</p> {/* Include status if available */}
-            </div>
-          ))}
+          {pastMeetings.map(meeting => {
+            return (
+              <div key={meeting.id} style={styles.card}>
+                <p><strong>{meeting.group.project_title}</strong></p>
+                <p>Date: {meeting.date}</p>
+                <p>Time: {meeting.time}</p>
+                
+                <button style={styles.actionButton} onClick={() => handleAttendanceChange(meeting.id, true)}>Mark Present</button>
+                <button style={styles.removeQuestionButton} onClick={() => handleAttendanceChange(meeting.id, false)}>Mark Absent</button>
+              </div>
+            );
+          })}
         </div>
       </section>
     </Header>
@@ -70,11 +197,6 @@ const GroupMeetings = () => {
 };
 
 export default GroupMeetings;
-
-
-  
-
-
 
 
 

@@ -109,8 +109,8 @@ const LoginPage = () => {
                 </div>
                 <h1 className="login-title">Login</h1>
                 <form onSubmit={handleLogin}>
-                    <label htmlFor="username" className="input-label">Email address</label>
-                    <input type="text" id="username" name="username" className="input-field" placeholder="username" required />
+                    <label htmlFor="username" className="input-label">Username</label>
+                    <input type="text" style={{width: '100%'}} id="username" name="username" className="input-field" placeholder="username" required />
 
                     <label htmlFor="password" className="input-label">Password</label>
                     <div className="password-container">

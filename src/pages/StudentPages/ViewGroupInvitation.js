@@ -1,19 +1,47 @@
-import React from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import Header from '../../components/Header';
+import axios from 'axios';
+import AuthContext from '../../context/AuthContext';
 
-const ViewGroupInvitation = ({ groups = [], setMembers, acceptInvitation, rejectInvitation }) => {
-  const [acceptedGroups, setAcceptedGroups] = React.useState([]);
+const ViewGroupInvitation = ({ setMembers, acceptInvitation, rejectInvitation }) => {
+  const [groups, setGroups] = useState([]);
+  const { authTokens } = useContext(AuthContext); // Get authTokens from context
 
-  const acceptInvitationHandler = (group) => {
-    console.log('Invitation Accepted:', group);
-    setAcceptedGroups((prevAcceptedGroups) => [...prevAcceptedGroups, group]);
-    setMembers((prevMembers) => [...prevMembers, group]);
-    acceptInvitation(group);
+  useEffect(() => {
+    const fetchInvitations = async () => {
+      try {
+        const response = await axios.get('http://127.0.0.1:8000/api/fyp/group-invitations/', {
+          headers: { Authorization: `Bearer ${authTokens.access}` }
+        });
+        setGroups(response.data);
+        console.log("Data received: ", response.data)
+      } catch (error) {
+        console.error("Error fetching group invitations:", error);
+      }
+    };
+    fetchInvitations();
+  }, []);
+  
+  const acceptInvitationHandler = async (groupId) => {
+    try {
+      await axios.post(`http://127.0.0.1:8000/api/fyp/accept-invitation/${groupId}/`, {}, {
+        headers: { Authorization: `Bearer ${authTokens.access}` }
+      });
+      acceptInvitation(groupId); // Update state on frontend
+    } catch (error) {
+      console.error("Error accepting invitation:", error);
+    }
   };
-
-  const rejectInvitationHandler = (group) => {
-    console.log('Invitation Rejected:', group);
-    rejectInvitation(group);
+  
+  const rejectInvitationHandler = async (groupId) => {
+    try {
+      await axios.post(`http://127.0.0.1:8000/api/fyp/reject-invitation/${groupId}/`, {}, {
+        headers: { Authorization: `Bearer ${authTokens.access}` }
+      });
+      rejectInvitation(groupId); // Update state on frontend
+    } catch (error) {
+      console.error("Error rejecting invitation:", error);
+    }
   };
 
   return (
@@ -21,7 +49,6 @@ const ViewGroupInvitation = ({ groups = [], setMembers, acceptInvitation, reject
       <div className="view-group-invitation">
         <h2>Group Invitations</h2>
 
-        {/* Only show when there are no group invitations */}
         {groups.length === 0 ? (
           <p>No group invitations available.</p>
         ) : (
@@ -37,30 +64,8 @@ const ViewGroupInvitation = ({ groups = [], setMembers, acceptInvitation, reject
                     <strong>Project Title:</strong> {group.projectTitle}
                   </div>
                  
-                  <button onClick={() => acceptInvitationHandler(group)}>Accept</button>
-                  <button onClick={() => rejectInvitationHandler(group)}>Reject</button>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-
-        {/* Show accepted groups only if there are any */}
-        {acceptedGroups.length > 0 && (
-          <div>
-            <h3>Accepted Groups:</h3>
-            <ul>
-              {acceptedGroups.map((group, index) => (
-                <li key={index}>
-                  <div>
-                    <strong>SAP ID:</strong> {group.sapId}
-                  </div>
-                  <div>
-                    <strong>Project Title:</strong> {group.projectTitle}
-                  </div>
-                  <div>
-                    <strong>Course:</strong> {group.course}
-                  </div>
+                  <button onClick={() => acceptInvitationHandler(group.groupId)}>Accept</button>
+                  <button onClick={() => rejectInvitationHandler(group.groupId)}>Reject</button>
                 </li>
               ))}
             </ul>

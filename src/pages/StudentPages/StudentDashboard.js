@@ -4,7 +4,7 @@ import Header from '../../components/Header';
 import Dropdown1 from '../../components/Dropdown1';
 import AuthContext from '../../context/AuthContext';
 import styles from '../commonCSS/supervisorStyles.js';
-
+import Announcements from '../../components/Announcements.js';
 const StudentDash = () => {
   const { user } = useContext(AuthContext);
 
@@ -50,6 +50,7 @@ const StudentDash = () => {
 
   return (
     <Header>
+       <Announcements />
       <section style={styles.section}>
         <h1 style={styles.sectionHeader}>Hello {user.username}, Student Dashboard</h1>
         <section style={styles.section}>

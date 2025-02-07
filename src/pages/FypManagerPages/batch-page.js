@@ -245,31 +245,296 @@
 
 // export default BatchPage;
 //Working
+// import React, { useState, useEffect, useContext } from 'react';
+// import { useNavigate } from 'react-router-dom';
+// import axios from 'axios'; // Import axios for API requests
+// import Header from "../../components/Header";
+// import styles from '../commonCSS/fypmanagerstyles';
+// import AuthContext from '../../context/AuthContext';
+// const dummyData = {
+//     groups: [
+//         {
+//             id: 1,
+//             projectName: 'AI-Powered Chatbot',
+//             supervisor: 'Dr. Smith',
+//             members: [
+//                 { name: 'Alice', sapId: '1001' },
+//                 { name: 'Bob', sapId: '1002' },
+//                 { name: 'Charlie', sapId: '1003' }
+//             ]
+//         },
+//         // Add other groups as needed
+//     ],
+//     projects: [
+//         { id: 1, title: 'AI for Healthcare' },
+//         { id: 2, title: 'E-commerce System' },
+//         { id: 3, title: 'IoT Smart Home' },
+//     ],
+//     teachers: [
+//         { id: 1, name: 'Dr. Smith' },
+//         { id: 2, name: 'Prof. Allen' },
+//     ],
+//     rooms: [
+//         { id: 1, room_no: 'Room 101' },
+//         { id: 2, room_no: 'Room 202' },
+//     ],
+//     panelMembers: [
+//         { id: 1, name: 'Mr. Brown', expertise: 'AI' },
+//         { id: 2, name: 'Ms. Green', expertise: 'E-commerce' },
+//         { id: 3, name: 'Dr. White', expertise: 'IoT' },
+//     ],
+//     assessments: [
+//         { id: 1, name: 'Midterm Assessment' },
+//         { id: 2, name: 'Final Assessment' }
+//     ]
+// };
+// const BatchPage = () => {
+//     const navigate = useNavigate();
+//     const { authTokens } = useContext(AuthContext);
+
+//     const [selectedCourse, setSelectedCourse] = useState('');
+//     const [courses, setCourses] = useState([]);
+//     const [groups, setGroups] = useState([]);
+//     const [assessments, setAssessments] = useState([]);
+//     const [presentation, setPresentation] = useState({
+//         title: '',
+//         scheduled_time: '',
+//         student_group: '',
+//         room_no: '',
+//         panel_members: [],
+//         teacher: '',
+//         assessment: ''
+//     });
+//     const [isModalOpen, setIsModalOpen] = useState(false);
+
+//     useEffect(() => {
+//         // Fetch courses assigned to the logged-in user
+//         const fetchCourses = async () => {
+//             try {
+//                 const response = await axios.get('http://127.0.0.1:8000/api/fyp/courses/', {
+//                     headers: { Authorization: `Bearer ${authTokens.access}` }
+//                 });
+//                 setCourses(response.data); // Set courses assigned to the user
+//             } catch (error) {
+//                 console.error("Error fetching courses:", error);
+//             }
+//         };
+
+//         fetchCourses();
+//     }, []);
+
+//     useEffect(() => {
+//         if (selectedCourse) {
+//             // Fetch groups and assessments for the selected course
+//             const fetchGroupsAndAssessments = async () => {
+//                 try {
+//                     console.log("Selected course: ", selectedCourse)
+//                     const [groupsResponse, assessmentsResponse] = await Promise.all([
+//                         axios.get(`http://127.0.0.1:8000/api/fyp/${selectedCourse}/get-fyp-groups`, {
+//                             headers: { Authorization: `Bearer ${authTokens.access}` }
+//                         }),
+//                         axios.get(`http://127.0.0.1:8000/api/fyp/assessments/?course_id=${selectedCourse}`, {
+//                             headers: { Authorization: `Bearer ${authTokens.access}` }
+//                         })
+//                     ]);
+//                     setGroups(groupsResponse.data);
+//                     setAssessments(assessmentsResponse.data);
+//                     console.log("Assessment response: ", assessmentsResponse.data)
+//                     console.log("Groups Response: ", groupsResponse.data)
+//                 } catch (error) {
+//                     console.error("Error fetching groups or assessments:", error);
+//                 }
+//             };
+
+//             fetchGroupsAndAssessments();
+//         }
+//     }, [selectedCourse]);
+
+//     const handleChange = (e) => {
+//         const { name, value } = e.target;
+//         setPresentation(prev => ({ ...prev, [name]: value }));
+//     };
+
+//     const handleExpertiseChange = (e) => {
+//         const expertise = e.target.value;
+//         setPresentation(prev => ({
+//             ...prev,
+//             panel_members: dummyData.panelMembers
+//                 .filter(member => member.expertise === expertise)
+//                 .map(member => member.name)
+//         }));
+//     };
+
+//     const handleSchedulePresentation = (groupId) => {
+//         setPresentation({ ...presentation, student_group: groupId });
+//         setIsModalOpen(true);
+//     };
+
+//     const handleSubmit = (e) => {
+//         e.preventDefault();
+//         alert('Presentation scheduled successfully!');
+//         setPresentation({
+//             title: '',
+//             scheduled_time: '',
+//             student_group: '',
+//             room_no: '',
+//             panel_members: [],
+//             teacher: '',
+//             assessment: ''
+//         });
+//         setIsModalOpen(false);
+//     };
+
+//     return (
+//         <Header>
+//             <div style={styles.container}>
+//                 <h1>FYP Project List</h1>
+
+//                 <div style={{ marginBottom: '20px' }}>
+//                 <label  style={styles.courseSelect}>Select Course:</label>
+// <select
+//     value={selectedCourse}
+//     onChange={(e) => setSelectedCourse(e.target.value)}
+//     style={styles.inputField}
+// >
+//                     <option value="" disabled>Select a course</option>
+//                     {courses.map((course) => (
+//                         <option key={course.course_id} value={course.course_id}>
+//                             {course.course_name} {course.section_name} {course.degree.degree_name} {course.semester.semester_name}
+//                         </option>
+//                     ))}
+//                 </select>
+//                 </div>
+
+//                 {groups.length > 0 && selectedCourse && (
+//                     <table style={styles.table}>
+//                         <thead>
+//                             <tr style={styles.tableHeaderRow}>
+//                                 <th style={styles.tableHeader}>Group No</th>
+//                                 <th style={styles.tableHeader}>Project Title</th>
+//                                 <th style={styles.tableHeader}>Supervisor</th>
+//                                 <th style={styles.tableHeader}>Group Members</th>
+//                                 <th style={styles.tableHeader}>SAP IDs</th>
+//                                 <th style={styles.tableHeader}>Actions</th>
+//                             </tr>
+//                         </thead>
+//                         <tbody>
+//                             {groups.map((group, index) => (
+//                                 <tr key={group.id} style={styles.tableRow}>
+//                                     <td style={styles.tableCell}>{index + 1}</td>
+//                                     <td style={styles.tableCell}>{group.project_title}</td>
+//                                     <td style={styles.tableCell}>{group.supervisor}</td>
+//                                     <td style={styles.tableCell}>
+//                                         {group.members.map((member, i) => (
+//                                             <div key={i}>{member.student.username}</div>
+//                                         ))}
+//                                     </td>
+//                                     <td style={styles.tableCell}>
+//                                         {group.members.map((member, i) => (
+//                                             <div key={i}>{member.student.sap_id}</div>
+//                                         ))}
+//                                     </td>
+//                                     <td style={styles.tableCell}>
+//                                         <button
+//                                             onClick={() => handleSchedulePresentation(group.id)}
+//                                             style={styles.actionButton}
+//                                         >
+//                                             Schedule
+//                                         </button>
+//                                     </td>
+//                                 </tr>
+//                             ))}
+//                         </tbody>
+//                     </table>
+//                 )}
+
+//                 {isModalOpen && (
+//                     <div className="modal" style={styles.modal}>
+//                         <div className="modal-content" style={styles.modalContent}>
+//                             <span className="close" onClick={() => setIsModalOpen(false)}>&times;</span>
+//                             <h2>Schedule Presentation</h2>
+//                             <form onSubmit={handleSubmit}>
+//                                 <select
+//                                     name="assessment"
+//                                     value={presentation.assessment}
+//                                     onChange={handleChange}
+//                                     style={styles.input}
+//                                     required
+//                                 >
+//                                     <option value="">Select Assessment</option>
+//                                     {assessments.map(assessment => (
+//                                         <option key={assessment.id} value={assessment.name}>{assessment.name}</option>
+//                                     ))}
+//                                 </select>
+
+//                                 <input
+//                                     type="datetime-local"
+//                                     name="scheduled_time"
+//                                     value={presentation.scheduled_time}
+//                                     onChange={handleChange}
+//                                     style={styles.input}
+//                                     required
+//                                 />
+
+//                                 <select
+//                                     name="room_no"
+//                                     value={presentation.room_no}
+//                                     onChange={handleChange}
+//                                     style={styles.input}
+//                                     required
+//                                 >
+//                                     <option value="">Select Room</option>
+//                                     {dummyData.rooms.map(room => (
+//                                         <option key={room.id} value={room.room_no}>{room.room_no}</option>
+//                                     ))}
+//                                 </select>
+
+//                                 <select
+//                                     name="teacher"
+//                                     value={presentation.teacher}
+//                                     onChange={handleChange}
+//                                     style={styles.input}
+//                                     required
+//                                 >
+//                                     <option value="">Select Teacher</option>
+//                                     {dummyData.teachers.map(teacher => (
+//                                         <option key={teacher.id} value={teacher.name}>{teacher.name}</option>
+//                                     ))}
+//                                 </select>
+
+//                                 <select
+//                                     onChange={handleExpertiseChange}
+//                                     style={styles.input}
+//                                     required
+//                                 >
+//                                     <option value="">Select Panel Member Expertise</option>
+//                                     <option value="AI">AI</option>
+//                                     <option value="E-commerce">E-commerce</option>
+//                                     <option value="IoT">IoT</option>
+//                                 </select>
+
+//                                 <button type="submit" style={styles.submitButton}>
+//                                     Schedule
+//                                 </button>
+//                             </form>
+//                         </div>
+//                     </div>
+//                 )}
+//             </div>
+//         </Header>
+//     );
+// };
+
+// export default BatchPage;
 import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios'; // Import axios for API requests
 import Header from "../../components/Header";
 import styles from '../commonCSS/fypmanagerstyles';
 import AuthContext from '../../context/AuthContext';
+
 const dummyData = {
-    groups: [
-        {
-            id: 1,
-            projectName: 'AI-Powered Chatbot',
-            supervisor: 'Dr. Smith',
-            members: [
-                { name: 'Alice', sapId: '1001' },
-                { name: 'Bob', sapId: '1002' },
-                { name: 'Charlie', sapId: '1003' }
-            ]
-        },
-        // Add other groups as needed
-    ],
-    projects: [
-        { id: 1, title: 'AI for Healthcare' },
-        { id: 2, title: 'E-commerce System' },
-        { id: 3, title: 'IoT Smart Home' },
-    ],
+    
     teachers: [
         { id: 1, name: 'Dr. Smith' },
         { id: 2, name: 'Prof. Allen' },
@@ -282,12 +547,9 @@ const dummyData = {
         { id: 1, name: 'Mr. Brown', expertise: 'AI' },
         { id: 2, name: 'Ms. Green', expertise: 'E-commerce' },
         { id: 3, name: 'Dr. White', expertise: 'IoT' },
-    ],
-    assessments: [
-        { id: 1, name: 'Midterm Assessment' },
-        { id: 2, name: 'Final Assessment' }
     ]
 };
+
 const BatchPage = () => {
     const navigate = useNavigate();
     const { authTokens } = useContext(AuthContext);
@@ -328,7 +590,6 @@ const BatchPage = () => {
             // Fetch groups and assessments for the selected course
             const fetchGroupsAndAssessments = async () => {
                 try {
-                    console.log("Selected course: ", selectedCourse)
                     const [groupsResponse, assessmentsResponse] = await Promise.all([
                         axios.get(`http://127.0.0.1:8000/api/fyp/${selectedCourse}/get-fyp-groups`, {
                             headers: { Authorization: `Bearer ${authTokens.access}` }
@@ -338,9 +599,9 @@ const BatchPage = () => {
                         })
                     ]);
                     setGroups(groupsResponse.data);
-                    setAssessments(assessmentsResponse.data);
-                    console.log("Assessment response: ", assessmentsResponse.data)
-                    console.log("Groups Response: ", groupsResponse.data)
+                    const filteredAssessments = assessmentsResponse.data.filter(assessment => assessment.name.toLowerCase() !== 'attendance'.toLowerCase());
+                    setAssessments(filteredAssessments);
+                    console.log("Group response: ", groupsResponse.data)
                 } catch (error) {
                     console.error("Error fetching groups or assessments:", error);
                 }
@@ -363,7 +624,7 @@ const BatchPage = () => {
                 .filter(member => member.expertise === expertise)
                 .map(member => member.name)
         }));
-    };
+    }; 
 
     const handleSchedulePresentation = (groupId) => {
         setPresentation({ ...presentation, student_group: groupId });
@@ -388,18 +649,35 @@ const BatchPage = () => {
     return (
         <Header>
             <div style={styles.container}>
-                <h1>FYP Project List</h1>
+                <h1>FYP Scheduling</h1>
 
                 <div style={{ marginBottom: '20px' }}>
-                    <label style={styles.label}>Select Course: </label>
+                    <label style={styles.courseSelect}>Select Course:</label>
                     <select
                         value={selectedCourse}
                         onChange={(e) => setSelectedCourse(e.target.value)}
-                        style={styles.dropdown}
+                        style={styles.inputField}
+                    >c
+                        <option value="" disabled>Select a course</option>
+                        {courses.map((course) => (
+                            <option key={course.course_id} value={course.course_id}>
+                                {course.course_name} {course.section_name} {course.degree.degree_name} {course.semester.semester_name}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+                <div style={{ marginTop: '20px' }}>
+                    <label style={styles.courseSelect}>Select Assessment:</label>
+                    <select
+                        name="assessment"
+                        value={presentation.assessment}
+                        onChange={handleChange}
+                        style={styles.inputField}
+                        required
                     >
-                        <option value="">-- Select a Course --</option>
-                        {courses.map(course => (
-                            <option key={course.id} value={course.course_id}>{course.course_name}</option>
+                        <option value="">Select Assessment</option>
+                        {assessments.map(assessment => (
+                            <option key={assessment.id} value={assessment.name}>{assessment.name}</option>
                         ))}
                     </select>
                 </div>
@@ -420,16 +698,17 @@ const BatchPage = () => {
                             {groups.map((group, index) => (
                                 <tr key={group.id} style={styles.tableRow}>
                                     <td style={styles.tableCell}>{index + 1}</td>
-                                    <td style={styles.tableCell}>{group.projectName}</td>
-                                    <td style={styles.tableCell}>{group.supervisor}</td>
+                                    <td style={styles.tableCell}>{group.project_title}</td>
                                     <td style={styles.tableCell}>
+                {group.supervisor?.username || 'N/A'} {/* Use nullish coalescing operator */}
+            </td>                                    <td style={styles.tableCell}>
                                         {group.members.map((member, i) => (
-                                            <div key={i}>{member.name}</div>
+                                            <div key={i}>{member.student.username}</div>
                                         ))}
                                     </td>
                                     <td style={styles.tableCell}>
                                         {group.members.map((member, i) => (
-                                            <div key={i}>{member.sapId}</div>
+                                            <div key={i}>{member.student.sap_id}</div>
                                         ))}
                                     </td>
                                     <td style={styles.tableCell}>
@@ -452,19 +731,6 @@ const BatchPage = () => {
                             <span className="close" onClick={() => setIsModalOpen(false)}>&times;</span>
                             <h2>Schedule Presentation</h2>
                             <form onSubmit={handleSubmit}>
-                                <select
-                                    name="assessment"
-                                    value={presentation.assessment}
-                                    onChange={handleChange}
-                                    style={styles.input}
-                                    required
-                                >
-                                    <option value="">Select Assessment</option>
-                                    {assessments.map(assessment => (
-                                        <option key={assessment.id} value={assessment.name}>{assessment.name}</option>
-                                    ))}
-                                </select>
-
                                 <input
                                     type="datetime-local"
                                     name="scheduled_time"
@@ -500,7 +766,7 @@ const BatchPage = () => {
                                     ))}
                                 </select>
 
-                                <select
+                                {/* <select
                                     onChange={handleExpertiseChange}
                                     style={styles.input}
                                     required
@@ -509,7 +775,7 @@ const BatchPage = () => {
                                     <option value="AI">AI</option>
                                     <option value="E-commerce">E-commerce</option>
                                     <option value="IoT">IoT</option>
-                                </select>
+                                </select> */}
 
                                 <button type="submit" style={styles.submitButton}>
                                     Schedule
@@ -524,4 +790,5 @@ const BatchPage = () => {
 };
 
 export default BatchPage;
+
 

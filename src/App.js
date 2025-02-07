@@ -33,7 +33,9 @@ import SchedulePresentation from './pages/FypManagerPages/schedule-presentation.
 import ManagePresentations from './pages/FypManagerPages/manage-presentations.js';
 import InvitePanelMembers from './pages/FypManagerPages/invite-panelmember.js';
 import AcceptedInvitations from './pages/FypManagerPages/manage-panelmember.js';
-import BatchPage from './pages/FypManagerPages/batch-page.js';
+// import BatchPage from './pages/FypManagerPages/batch-page.js';
+import ViewPBLManagement from './pages/FypManagerPages/PBLView.js';
+import SchedulePresentations from './pages/FypManagerPages/schedulePresentations.js';
 import ManageAssessmentPage from './pages/FypManagerPages/manage-assessmentpage.js';
 import CreateAssessmentPage from './pages/FypManagerPages/create-assessmentpage.js';
 import ExternalAssessment from './pages/FypManagerPages/external-assessmentpage.js';
@@ -46,6 +48,7 @@ import AddGroupMember from './pages/StudentPages/AddGroupMember.js';
 import ViewGroupInvitation from './pages/StudentPages/ViewGroupInvitation.js';
 import RequestSupervisor from './pages/StudentPages/RequestSupervisor.js';
 import ScheduleSupervisorMeeting from './pages/StudentPages/ScheduleSupervisorMeeting.js';
+import EvaluationSheet from './pages/PanelPages/evaluationsheet.js'
 
 function App() {
     const [members, setMembers] = useState([]); // State for group members
@@ -86,6 +89,7 @@ function App() {
                     <Routes>
                         {/* Paths for login, dashboard */}
                         <Route path="/" element={<RouteGuard element={<HomePage />} />} exact />
+                        <Route path="/Profile" element={<RouteGuard element={<HomePage />} />} exact />
                         <Route path="/login" element={<LoginPage />} />
                         <Route path="/role-selection" element={<RoleSelectionPage />} />
                         <Route path="/course" element={<CoursePage />} />
@@ -114,12 +118,15 @@ function App() {
                         <Route path="/manage-presentations" element={<RouteGuard element={<ManagePresentations/>} />} />
                         <Route path="/invite-panelmember" element={<RouteGuard element={<InvitePanelMembers/>} />} />
                         <Route path="/manage-panelmember" element={<RouteGuard element={<AcceptedInvitations/>} />} />
-                        <Route path="/batch-page" element={<RouteGuard element={<BatchPage/>} />} />
+                        {/* <Route path="/batch-page" element={<RouteGuard element={<BatchPage/>} />} /> */}
+                        <Route path="/batch-page" element={<RouteGuard element={<SchedulePresentations/>} />} />
                         <Route path="/manage-assessmentpage" element={<RouteGuard element={<ManageAssessmentPage/>} />} />
                         <Route path="/create-assessmentpage" element={<RouteGuard element={<CreateAssessmentPage/>} />} />
                         {/* <Route path="/create-assessment" element={<CreateAssessmentPage />} /> */}
                         <Route path="/external-assessmentpage" element={<ExternalAssessment />} />
                         <Route path="/schedule-presentation" element={<schedulePresentation />} />
+                        <Route path="/TimetableUploadPage" element={<TimetableUploadPage />} />
+                        <Route path="/ViewPBLManagement" element={<ViewPBLManagement />} />
                         {}
                         <Route path="/project-submissions" element={<RouteGuard element={<ProjectSubmissions />} />} />
                         <Route path="/project-ideas" element={<RouteGuard element={<ProjectIdeas />} />} />
@@ -127,16 +134,13 @@ function App() {
                         <Route path="/add-group-member" element={<RouteGuard element={<AddGroupMember onAddGroupMember={handleAddMember} />} />} />
                         <Route path="/request-supervisor" element={<RouteGuard element={<RequestSupervisor />} />} />
                         <Route path="/schedule-supervisor-meeting" element={<RouteGuard element={<ScheduleSupervisorMeeting />} />} />
-                     <Route
-                                  path="/view-group-invitation" element={<RouteGuard element={<ViewGroupInvitation groups={groups} setMembers={setMembers} 
-                                          acceptInvitation={acceptGroupInvitation}
-                                          rejectInvitation={rejectGroupInvitation}
-                                        />
-                                      }
-                                    />
-                                  }
-                                />
-                    
+                     
+                        <Route path="/view-group-invitation" element={<RouteGuard element={<ViewGroupInvitation groups={groups} setMembers={setMembers} 
+                        acceptInvitation={acceptGroupInvitation}
+                        rejectInvitation={rejectGroupInvitation}/>}/> }/>     
+                        {/* {Panel Pages */}
+                        <Route path="/evaluationSheet" element={<RouteGuard element={<EvaluationSheet />} />} />
+
                     </Routes>
                 </AuthProvider>
             </Router>

@@ -134,7 +134,10 @@ import { Link } from 'react-router-dom';
 import '../components/HeaderMe.css'; // Ensure your CSS is applied
 
 const Dropdown1 = ({ title, sections }) => {
-  const [openSections, setOpenSections] = useState({});
+  // const [openSections, setOpenSections] = useState({});
+  const [openSections, setOpenSections] = useState(
+    sections.reduce((acc, _, index) => ({ ...acc, [index]: true }), {})
+  );
 
   const toggleSection = (index) => {
     setOpenSections((prev) => ({

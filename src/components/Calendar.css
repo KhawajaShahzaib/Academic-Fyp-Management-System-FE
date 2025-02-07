@@ -2,7 +2,7 @@ body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f9;
     margin: 0;
-    display: flex;
+    /* display: flex; */
     justify-content: center;
     align-items: center;
     height: 100vh;
@@ -10,12 +10,13 @@ body {
   
   .calendar-container {
     width: 300px;
-    margin-top: 21px;
-    margin-right: -300px;
+    /* margin-top: 21px; */
+    /* margin-right: -300px; */
     background: #fff;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     overflow: hidden;
+    height: 45%;
   }
   
   .calendar-main {
@@ -68,4 +69,15 @@ body {
   
   .day.empty {
     visibility: hidden;
+  }
+
+  .day.presentation-day {
+    background-color: #ffeb3b; /* Yellow background for presentation days */
+    color: #000;
+  }
+  
+  .day.presentation-day .mark {
+    color: red;
+    font-weight: bold;
+    margin-left: 5px;
   }

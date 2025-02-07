@@ -659,6 +659,7 @@ import axios from 'axios';
 import styles from '../commonCSS/fypmanagerstyles.js'; // CSS file
 import Header from "../../components/Header";
 import AuthContext from '../../context/AuthContext.js';
+import { FaBook } from 'react-icons/fa'; // Importing a book icon for degrees
 
 const ExternalAssessment = () => {
     const { authTokens } = useContext(AuthContext);
@@ -668,6 +669,10 @@ const ExternalAssessment = () => {
     const [editId, setEditId] = useState(null);
     const [courses, setCourses] = useState([]);
     const [selectedCourse, setSelectedCourse] = useState('');
+     const [degreesData, setDegreesData] = useState([]);
+    const [selectedDegree, setSelectedDegree] = useState(null);
+    const [loadingCourses, setLoadingCourses] = useState(false);
+    const [loadingDegrees, setLoadingDegrees] = useState(true);
     const [formData, setFormData] = useState({
         name: '',
         description: '',
@@ -678,10 +683,57 @@ const ExternalAssessment = () => {
     });
     const [error, setError] = useState('');
 
-    useEffect(() => {
-        fetchCourses();
-    }, []);
+    // Fetch degrees data on component mount
+useEffect(() => {
+    const fetchDegrees = async () => {
+      try {
+        const response = await axios.get('http://127.0.0.1:8000/api/fyp/degree/', {
+          headers: {
+            'Authorization': `Bearer ${authTokens.access}`,
+          },
+        });
+        console.log('Degrees Data:', response.data); // Log the fetched degrees
+        setDegreesData(response.data);
+      } catch (error) {
+        console.error('Error fetching degrees:', error);
+      } finally {
+        setLoadingDegrees(false);
+      }
+    };
 
+    fetchDegrees();
+  }, [authTokens]);
+
+  const handleDegreeChange = async (degreeId) => {
+    setSelectedDegree(degreeId);
+    // setSelectedCourses(courseId);
+    setLoadingCourses(true);
+    try {
+      // const response = await axios.get(http://127.0.0.1:8000/api/fyp/${degreeId}/courses-with-projects/, {
+      const response = await axios.get(`http://127.0.0.1:8000/api/fyp/${degreeId}/get_coursess/`, {
+      // const response = await axios.get(http://127.0.0.1:8000/api/fyp/courses-with-projects/, {
+    
+        headers: {
+          'Authorization': `Bearer ${authTokens.access}`,
+        },
+      });
+      console.log('Courses Data Against Degree:', response.data); // Log the fetched courses
+      setCourses(response.data);
+    } catch (error) {
+      console.error('Error fetching courses:', error);
+      setCourses([]);
+    } finally {
+      setLoadingCourses(false);
+    }
+  }
+  
+  const handleCourseChange = (courseId) => {
+    if (selectedCourse === courseId) {
+        setSelectedCourse(null); // Deselect if clicked again
+    } else {
+        setSelectedCourse(courseId); // Select a new course
+    }
+};
     useEffect(() => {
         if (selectedCourse) {
             fetchAssessments(selectedCourse);
@@ -690,16 +742,17 @@ const ExternalAssessment = () => {
         }
     }, [selectedCourse]);
 
-    const fetchCourses = async () => {
-        try {
-            const response = await axios.get('http://127.0.0.1:8000/api/fyp/courses/', {
-                headers: { Authorization: `Bearer ${authTokens.access}` }
-            });
-            setCourses(response.data);
-        } catch (error) {
-            console.error("Error fetching courses:", error);
-        }
-    };
+    // const fetchCourses = async () => {
+    //     try {
+    //         const response = await axios.get('http://127.0.0.1:8000/api/fyp/courses/', {
+    //             headers: { Authorization: `Bearer ${authTokens.access}` }
+    //         });
+    //         console.log("fetched courses: ", response.data)
+    //         setCourses(response.data);
+    //     } catch (error) {
+    //         console.error("Error fetching courses:", error);
+    //     }
+    // };
 
     const fetchCLOs = async (courseId) => {
         try {
@@ -818,18 +871,121 @@ const ExternalAssessment = () => {
                 <h2 style={styles.sectionHeader}>Manage Assessments</h2>
 
                 {/* Course Selection */}
-                <label htmlFor="course-select" style={{ fontWeight: 'bold', marginBottom: '10px' }}>Select Course:</label>
-                <select
-                    id="course-select"
-                    value={selectedCourse}
-                    onChange={(e) => setSelectedCourse(e.target.value)}
-                    style={{ marginBottom: '20px', padding: '5px' }}
-                >
-                    <option value="" disabled>Select a course</option>
-                    {courses.map((course) => (
-                        <option key={course.course_id} value={course.course_id}>{course.course_name}</option>
-                    ))}
-                </select>
+                {loadingDegrees ? (
+                          <p>Loading degrees...</p>
+                        ) : (
+                          <div style={{ margin: '20px 0' }}>
+                            <label
+                              htmlFor="degree-select"
+                              style={{
+                                fontWeight: 'bold',
+                                fontSize: '1.2em',
+                                color: '#444',
+                                marginBottom: '10px',
+                                display: 'block',
+                              }}
+                            >
+                              Select Degree:
+                            </label>
+                            <div
+                              style={{
+                                display: 'grid',
+                                gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))',
+                                gap: '20px',
+                              }}
+                            >
+                              {degreesData.map((degree) => (
+                                <div
+                                  key={degree.id}
+                                  onClick={() => handleDegreeChange(degree.degree_id)}
+                                  style={{
+                                    cursor: 'pointer',
+                                    padding: '20px',
+                                    borderBottom:
+                                      selectedDegree === degree.degree_id
+                                        ? '10px solid #0073e6'
+                                        : '10px solid transparent',
+                                    borderRadius: '15px',
+                                    backgroundColor:
+                                      selectedDegree === degree.degree_id
+                                        ? 'rgba(0, 115, 230, 0.1)'
+                                        : '#fff',
+                                    color:
+                                      selectedDegree === degree.degree_id ? '#0073e6' : '#333',
+                                    boxShadow:
+                                      selectedDegree === degree.degree_id
+                                        ? '0 4px 10px rgba(0, 115, 230, 0.3)'
+                                        : '0 4px 10px rgba(0, 0, 0, 0.1)',
+                                    transition: 'all 0.3s ease',
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    textAlign: 'center',
+                                  }}
+                                >
+                                  <FaBook
+                                    style={{
+                                      fontSize: '2.5em',
+                                      marginBottom: '10px',
+                                      color: selectedDegree === degree.degree_id ? '#0073e6' : '#0073e6',
+                                    }}
+                                  />
+                                  <h4
+                                    style={{
+                                      fontSize: '1.4em',
+                                      marginBottom: '10px',
+                                      fontWeight: '600',
+                                    }}
+                                  >
+                                    {degree.degree_name}
+                                  </h4>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+
+{selectedDegree && (
+    <div style={{ marginBottom: '30px' }}>
+        <h3 style={{ marginBottom: '10px', color: '#555' }}>Select a Course</h3>
+        <table style={styles.table}>
+            <thead style={styles.tableHeader}>
+                <tr style={styles.tableHeaderRow}>
+                    <th style={styles.tableCell}>Select</th>
+                    <th style={styles.tableCell}>Course Name</th>
+                    <th style={styles.tableCell}>Section</th>
+                    <th style={styles.tableCell}>Semester</th>
+                </tr>
+            </thead>
+            <tbody>
+                {courses.map((course) => (
+                    <tr
+                        key={course.course_id}
+                        style={
+                            selectedCourse === course.course_id
+                                ? styles.selectedRow
+                                : styles.unselectedRow
+                        }
+                        onClick={() => handleCourseChange(course.course_id)}
+                    >
+                        <td style={{ padding: '10px', border: '1px solid #ddd' }}>
+                            <input
+                                type="radio"
+                                name="courseSelection"
+                                checked={selectedCourse === course.course_id}
+                                onChange={() => handleCourseChange(course.course_id)}
+                            />
+                        </td>
+                        <td style={styles.tableCell}>{course.course_name}</td>
+                        <td style={styles.tableCell}>{course.section_name}</td>
+                        <td style={styles.tableCell}>{course.semester.semester_name}</td>
+                    </tr>
+                ))}
+            </tbody>
+        </table>
+    </div>
+)}
 
                 {/* Assessments Table */}
                 {selectedCourse && assessments.length > 0 && (
@@ -865,71 +1021,148 @@ const ExternalAssessment = () => {
                 {/* Assessment Form */}
                 </section>
            <section style={styles.section}>
-    <h2 style={styles.sectionHeader}>Create Assessments</h2>
+    {/* <h2 style={styles.sectionHeader}>Create Assessments</h2> */}
     {selectedCourse && (
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+    <>
+        <h2 style={{ textAlign: 'center', fontSize: '24px', marginBottom: '20px' }}>
+    {isEditing ? 'Update Assessment' : 'Create New Assessment'}
+</h2>
+        <form 
+        onSubmit={handleSubmit} 
+        style={{ display: 'flex', flexDirection: 'column', gap: '15px', padding: '20px' }}
+    >
+        <input
+            type="text"
+            name="name"
+            value={formData.name}
+            onChange={handleInputChange}
+            placeholder="Assessment Name"
+            required
+            style={{
+                height: '50px',
+                padding: '10px',
+                border: '1px solid #ccc',
+                borderRadius: '5px',
+                fontSize: '16px',
+            }}
+        />
+        <textarea
+            name="description"
+            value={formData.description}
+            onChange={handleInputChange}
+            placeholder="Description"
+            style={{
+                height: '100px',
+                padding: '10px',
+                border: '1px solid #ccc',
+                borderRadius: '5px',
+                fontSize: '16px',
+                resize: 'none',
+            }}
+        />
+        <label style={{ display: 'flex', alignItems: 'center' }}>
             <input
-                type="text"
-                name="name"
-                value={formData.name}
+                type="checkbox"
+                name="presentationRequired"
+                checked={formData.presentationRequired}
                 onChange={handleInputChange}
-                placeholder="Assessment Name"
-                required
+                style={{ marginRight: '10px', width: '18px', height: '18px', margin: '10px 10px' }}
+            />
+            Presentation Required
+        </label>
+        <input
+            type="number"
+            name="weightage"
+            value={formData.weightage}
+            onChange={handleInputChange}
+            placeholder="Weightage (%)"
+            required
+            style={{
+                height: '50px',
+                padding: '10px',
+                border: '1px solid #ccc',
+                borderRadius: '5px',
+                fontSize: '16px',
+            }}
+        />
+        <label style={{ marginBottom: '10px', fontSize: '16px', fontWeight: 'bold' }}>Select CLOs:</label>
+        <div 
+            style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+                gap: '10px',
+   
+            }}
+        >
+            {clos.map((clo) => (
+                <label 
+                    key={clo.clo_id} 
+                    style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        backgroundColor: '#f9f9f9',
+                        padding: '20px 20px',
+                        borderRadius: '5px',
+                        border: '1px solid #ccc',
+                    }}
+                >
+                    <input
+                        type="checkbox"
+                        value={clo.clo_id}
+                        checked={formData.clos.includes(clo.clo_id)}
+                        onChange={(e) => handleCLOCheckboxChange(e, clo.clo_id)}
+                        style={{ marginRight: '10px', width: '18px', height: '18px', margin: '10px 10px' }}
+                    />
+                    <span style={{ fontSize: '14px', padding: '20px 20px' }}>
+    {`CLO ${clo.clo_number}: ${clo.title}`}
+</span>
+                </label>
+            ))}
+        </div>
+        <button 
+            type="submit" 
+            style={{
+                padding: '12px 20px',
+                backgroundColor: '#007bff',
+                color: '#fff',
+                border: 'none',
+                borderRadius: '5px',
+                fontSize: '16px',
+                fontWeight: 'bold',
+                cursor: 'pointer',
+            }}
+        >
+            {isEditing ? "Update Assessment" : "Create Assessment"}
+        </button>
+        {isEditing && (
+            <button
+                type="button"
+                onClick={resetForm}
                 style={{
-                    ...styles.inputField,
-                    height: '50px',
-                    overflowY: 'scroll',
+                    backgroundColor: 'gray',
+                    color: 'white',
+                    padding: '10px 20px',
+                    border: 'none',
+                    borderRadius: '5px',
+                    fontSize: '16px',
+                    fontWeight: 'bold',
+                    cursor: 'pointer',
+                    padding: '12px 20px',
+                    width: '18%',
                 }}
-            />
-            <textarea
-                name="description"
-                value={formData.description}
-                onChange={handleInputChange}
-                placeholder="Description"
-                style={styles.textarea}
-            />
-            <label style={{ display: 'flex', alignItems: 'center' }}>
-                <input
-                    type="checkbox"
-                    name="presentationRequired"
-                    checked={formData.presentationRequired}
-                    onChange={handleInputChange}
-                    style={{ marginRight: '5px' }}
-                />
-                Presentation Required
-            </label>
-            <input
-                type="number"
-                name="weightage"
-                value={formData.weightage}
-                onChange={handleInputChange}
-                placeholder="Weightage (%)"
-                required
-                style={styles.input}
-            />
-            
-            <label>Select CLOs:</label>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
-                {clos.map((clo) => (
-                    <label key={clo.clo_id} style={{ display: 'flex', alignItems: 'center' }}>
-                        <input
-                            type="checkbox"
-                            value={clo.clo_id}
-                            checked={formData.clos.includes(clo.clo_id)}
-                            onChange={(e) => handleCLOCheckboxChange(e, clo.clo_id)}
-                            style={{ marginRight: '5px' }}
-                        />
-                        {`CLO ${clo.clo_id}: ${clo.title}`}
-                    </label>
-                ))}
-            </div>
-            
-            <button type="submit" style={styles.actionButton}>
-                {isEditing ? "Update Assessment" : "Create Assessment"}
+            >
+                Cancel
             </button>
-        </form>
-    )}
-    {error && <p style={{ color: 'red', marginTop: '10px' }}>{error}</p>}
+        )}
+    </form>
+    </>
+)}
+{error && (
+    <p style={{ color: 'red', marginTop: '10px', fontSize: '14px', textAlign: 'center' }}>
+        {error}
+    </p>
+)}
+
         </section>
         </Header>
     );

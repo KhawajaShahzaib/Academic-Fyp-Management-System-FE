@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQL Parse Trees</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            text-align: center;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .tree {
+            display: inline-block;
+            text-align: left;
+            font-family: 'Courier New', monospace;
+            margin: 20px;
+            padding-left: 20px;
+        }
+
+        .node {
+            margin: 10px;
+            padding: 5px 10px;
+            border-radius: 5px;
+            background-color: #1e3d58;
+            color: white;
+            display: inline-block;
+            margin-left: 20px;
+            position: relative;
+            min-width: 70px;
+            text-align: center;
+        }
+
+        .node:before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 15px;
+            width: 1px;
+            height: 10px;
+            background-color: #1e3d58;
+        }
+
+        .children {
+            margin-top: 10px;
+            margin-left: 30px;
+            display: block;
+        }
+
+        .arrow {
+            font-size: 25px;
+            margin: 0 20px;
+        }
+
+        .leaf {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .tree-container {
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <!-- Query 1: SELECT class_name FROM class -->
+        <div class="tree-container">
+            <div class="tree">
+                <div class="node">SELECT</div>
+                <div class="children">
+                    <div class="node">columns</div>
+                    <div class="children">
+                        <div class="node leaf">class_name</div>
+                    </div>
+                    <div class="arrow">→</div>
+                    <div class="node">FROM</div>
+                    <div class="children">
+                        <div class="node leaf">class</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Query 2: UPDATE users SET age = 31 WHERE name = 'John' -->
+        <div class="tree-container">
+            <div class="tree">
+                <div class="node">UPDATE</div>
+                <div class="children">
+                    <div class="node leaf">users</div>
+                    <div class="arrow">→</div>
+                    <div class="node">SET</div>
+                    <div class="children">
+                        <div class="node">column</div>
+                        <div class="children">
+                            <div class="node leaf">age</div>
+                        </div>
+                        <div class="arrow">=</div>
+                        <div class="node leaf">31</div>
+                    </div>
+                    <div class="arrow">→</div>
+                    <div class="node">WHERE</div>
+                    <div class="children">
+                        <div class="node">column</div>
+                        <div class="children">
+                            <div class="node leaf">name</div>
+                        </div>
+                        <div class="arrow">=</div>
+                        <div class="node leaf">'John'</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Query 3: DELETE FROM users WHERE name = 'Jane' -->
+        <div class="tree-container">
+            <div class="tree">
+                <div class="node">DELETE</div>
+                <div class="children">
+                    <div class="node">FROM</div>
+                    <div class="children">
+                        <div class="node leaf">users</div>
+                    </div>
+                    <div class="arrow">→</div>
+                    <div class="node">WHERE</div>
+                    <div class="children">
+                        <div class="node">column</div>
+                        <div class="children">
+                            <div class="node leaf">name</div>
+                        </div>
+                        <div class="arrow">=</div>
+                        <div class="node leaf">'Jane'</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Query 4: INSERT INTO products VALUES ('1', 'Laptop', '999.99') -->
+        <div class="tree-container">
+            <div class="tree">
+                <div class="node">INSERT INTO</div>
+                <div class="children">
+                    <div class="node leaf">products</div>
+                    <div class="arrow">→</div>
+                    <div class="node">VALUES</div>
+                    <div class="children">
+                        <div class="node leaf">'1'</div>
+                        <div class="arrow">,</div>
+                        <div class="node leaf">'Laptop'</div>
+                        <div class="arrow">,</div>
+                        <div class="node leaf">'999.99'</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
