@@ -106,7 +106,7 @@ The FYP Management System is a web-based platform designed to streamline and sim
 
 ### Director Dashboard
 ![DirectorDashboard](screenshots/DirectorDashboard.png)
-
+![DirectorDashboard](screenshots/DirectorDashboard2.png)
 
 ### FYP Incharge Dashboard
 ![InchargeDashboard](screenshots/fypInchargeDashboard.png)
